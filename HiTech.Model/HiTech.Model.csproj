@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B6746077-C7D6-4903-AAB7-6853B0BBAC88}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HiTech.Model</RootNamespace>
+    <AssemblyName>HiTech.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entites\Category.cs" />
+    <Compile Include="Entites\Customer.cs" />
+    <Compile Include="Entites\Employee.cs" />
+    <Compile Include="Entites\Order.cs" />
+    <Compile Include="Entites\OrderDetail.cs" />
+    <Compile Include="Entites\Product.cs" />
+    <Compile Include="Entites\Role.cs" />
+    <Compile Include="Entites\Shipper.cs" />
+    <Compile Include="Entites\State.cs" />
+    <Compile Include="Entites\Supplier.cs" />
+    <Compile Include="HiTechContext.cs" />
+    <Compile Include="Migrations\201811150921241_FirstDB.cs" />
+    <Compile Include="Migrations\201811150921241_FirstDB.Designer.cs">
+      <DependentUpon>201811150921241_FirstDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811170345375_SecondDB.cs" />
+    <Compile Include="Migrations\201811170345375_SecondDB.Designer.cs">
+      <DependentUpon>201811170345375_SecondDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811170442007_ThridDB.cs" />
+    <Compile Include="Migrations\201811170442007_ThridDB.Designer.cs">
+      <DependentUpon>201811170442007_ThridDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811171711427_DisplayNameDb.cs" />
+    <Compile Include="Migrations\201811171711427_DisplayNameDb.Designer.cs">
+      <DependentUpon>201811171711427_DisplayNameDb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811180351063_updateDisplayNameDB.cs" />
+    <Compile Include="Migrations\201811180351063_updateDisplayNameDB.Designer.cs">
+      <DependentUpon>201811180351063_updateDisplayNameDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811190115217_NotNullDB.cs" />
+    <Compile Include="Migrations\201811190115217_NotNullDB.Designer.cs">
+      <DependentUpon>201811190115217_NotNullDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811190120234_NotNullAllDB.cs" />
+    <Compile Include="Migrations\201811190120234_NotNullAllDB.Designer.cs">
+      <DependentUpon>201811190120234_NotNullAllDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EntityFramework">
+      <Version>6.2.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201811150921241_FirstDB.resx">
+      <DependentUpon>201811150921241_FirstDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811170345375_SecondDB.resx">
+      <DependentUpon>201811170345375_SecondDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811170442007_ThridDB.resx">
+      <DependentUpon>201811170442007_ThridDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811171711427_DisplayNameDb.resx">
+      <DependentUpon>201811171711427_DisplayNameDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811180351063_updateDisplayNameDB.resx">
+      <DependentUpon>201811180351063_updateDisplayNameDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811190115217_NotNullDB.resx">
+      <DependentUpon>201811190115217_NotNullDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811190120234_NotNullAllDB.resx">
+      <DependentUpon>201811190120234_NotNullAllDB.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
