@@ -1,0 +1,101 @@
+﻿@model PagedList.IPagedList<HiTech.Model.Entites.Category>
+@using PagedList.Mvc;
+@{
+
+
+    ViewBag.Title = "Quản lý danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Danh sách danh mục</h2>
+@ViewBag.UniqueUri
+<p>
+    @using (Html.BeginForm("Index", "Category", FormMethod.Get))
+    {
+        <div class="input-group  col-lg-4" style="margin:20px;">
+            @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @placeholder = "Nhập từ khóa..." })
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+            </span>
+        </div>
+    }
+
+    @using (Html.BeginForm("DeleteAll", "Category", FormMethod.Post))
+    {
+
+    <p style="margin-left:20px;">
+        <a href="@Url.Action("Create", "Category")" data-toggle="tooltip" class="btn btn-primary " title="Thêm mới">
+            <i class="fa fa-plus"></i>
+        </a>
+
+        <button type="submit" onclick='return confirm("Bạn có chắn chắn muốn xóa?");' class="btn btn-danger" data-toggle="tooltip" title="Xóa">
+            <i class="fa fa-trash-o"></i>
+        </button>
+
+
+    </p>
+
+    <div class="col-md-8">
+        <div class="box">
+
+            <div class="box-body">
+
+                <table class="table" id="category">
+                    <tr>
+                        <th class="col-md-1 text-center ">
+
+                            <input type="checkbox" id="CheckboxAll" />
+                        </th>
+                        <th class="col-md-2">
+                            Tên danh mục
+                        </th>
+                        <th class="col-md-3">
+                            Mô tả
+                        <th class="col-md-2"></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @Html.CheckBox("categoryId", new { value = item.CategoryID, @class = "CheckboxID" })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CategoryName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Sửa", "Edit", new { id = item.CategoryID }) |
+                                @Html.ActionLink("Chi tiết", "Details", new { id = item.CategoryID }) |
+                                @Html.ActionLink("Xóa", "Delete", new { id = item.CategoryID })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                <br />
+                <br />
+                Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
+            </div>
+        </div>
+    </div>
+}
+    @section categoryCheckDeleteAll{
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $('#CheckboxAll').click(function () {
+                    if ($(this).is(":checked")) {
+                        $('.CheckboxID').prop("checked", true)
+                    }
+                    else {
+                        $('.CheckboxID').prop("checked", false)
+                    }
+
+                })
+            })
+        </script>
+    }

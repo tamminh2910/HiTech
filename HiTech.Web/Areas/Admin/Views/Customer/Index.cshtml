@@ -1,0 +1,88 @@
+﻿@model IEnumerable<HiTech.Model.Entites.Customer>
+
+@{
+    ViewBag.Title = "Quản lý khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("DeleteAll", "Customer", FormMethod.Post))
+{
+    <p style="margin-left:20px; ">
+        <a href="@Url.Action("Create", "Customer")" data-toggle="tooltip" class="btn btn-primary " title="Thêm mới">
+            <i class="fa fa-plus"></i>
+        </a>
+
+        <button type="submit" onclick='return confirm("Bạn có chắn chắn muốn xóa?");' class="btn btn-danger" data-toggle="tooltip" title="Xóa">
+            <i class="fa fa-trash-o"></i>
+        </button>
+
+
+    </p>
+    <table class="table table-responsive" style="width:100%">
+        <tr>
+            <th style="width: 1px;" class="text-center">
+                <input type="checkbox" id="CheckboxAll" />
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td class="text-center" style="vertical-align:middle;">
+                @Html.CheckBox("CustomerID", new { value = item.CustomerID, @class = "CheckboxID" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+
+            <td class="text-center" style="vertical-align:middle;">
+                <a href="@Url.Action("Edit", "Customer", new { id = item.CustomerID })" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Chỉnh sửa">
+                    <i class="fa fa-pencil"></i>
+                </a>
+
+                <a href="@Url.Action("Details", "Customer", new { id = item.CustomerID })" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="Chi tiết">
+                    <i class="fa fa-info-circle"></i>
+                </a>
+            </td>
+        </tr>
+        }
+
+    </table>
+}

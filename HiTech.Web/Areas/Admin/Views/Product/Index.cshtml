@@ -1,0 +1,136 @@
+﻿@model PagedList.IPagedList<HiTech.Model.Entites.Product>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Quản lý sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("Index", "Product", FormMethod.Get))
+{
+    <div class="input-group  col-lg-4" style="margin:20px; ">
+        @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @placeholder = "Nhập từ khóa..." })
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+        </span>
+    </div>
+}
+@using (Html.BeginForm("DeleteAll", "Product", FormMethod.Post))
+{
+
+    <p style="margin-left:20px; ">
+        <a href="@Url.Action("Create", "Product")" data-toggle="tooltip" class="btn btn-primary " title="Thêm mới">
+            <i class="fa fa-plus"></i>
+        </a>
+
+        <button type="submit" onclick='return confirm("Bạn có chắn chắn muốn xóa?");' class="btn btn-danger" data-toggle="tooltip" title="Xóa">
+            <i class="fa fa-trash-o"></i>
+        </button>
+
+
+    </p>
+    <div class="table-responsive" style="width:100%">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th style="width: 1px;" class="text-center">
+                    <input type="checkbox" id="CheckboxAll" />
+                </th>
+
+                <th class="text-center" style="text-align:center;  vertical-align:middle;">
+                    Tên sản phẩm
+                </th>
+                <th class="text-center">
+                    Tên danh mục
+                </th>
+                <th class="text-center">
+                    Giá bán
+                </th>
+                <th class="text-center">
+                    Hình ảnh
+                </th>
+                <th class="text-center">
+                    Ngày đăng
+                </th>
+                <th class="text-center">
+                    Giảm giá
+                </th>
+
+                <th class="text-center">
+
+                    Trạng thái
+
+
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center" style="vertical-align:middle;">
+                        @Html.CheckBox("productID", new { value = item.ProductID, @class = "CheckboxID" })
+                    </td>
+
+                    <td class="text-left" style="vertical-align:middle;">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="text-left" style="vertical-align:middle;">
+                        @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                    </td>
+                    <td class="text-right" style="vertical-align:middle;">
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td class="text-center style=" vertical-align:middle;"">
+                        <img src="@item.Image" width="100" class="img-thumbnail" />
+                    </td>
+                    <td class="text-left" style="vertical-align:middle;">
+                        @Html.DisplayFor(modelItem => item.RegisterDate)
+                    </td>
+                    <td class="text-right" style="vertical-align:middle;">
+                        @Html.DisplayFor(modelItem => item.Discount)
+                    </td>
+
+                    <td class="text-center" style="vertical-align:middle;">
+                        @if (item.State == true)
+                        {
+                            <span style="color:green;">Đang bán</span>
+                        }
+                        else
+                        {
+                            <span style="color:red;">Ngừng bán</span>
+                        }
+
+                    <td class="text-center" style="vertical-align:middle;">
+                        <a href="@Url.Action("Edit","Product", new { id = item.ProductID })" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Chỉnh sửa">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+
+                        <a href="@Url.Action("Details","Product", new { id = item.ProductID })" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="Chi tiết">
+                            <i class="fa fa-info-circle"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <br />
+        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+}
+@section productCheckDeleteAll{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#CheckboxAll').click(function () {
+                if ($(this).is(":checked")) {
+                    $('.CheckboxID').prop("checked", true)
+                }
+                else {
+                    $('.CheckboxID').prop("checked", false)
+                }
+
+            })
+        })
+    </script>
+}

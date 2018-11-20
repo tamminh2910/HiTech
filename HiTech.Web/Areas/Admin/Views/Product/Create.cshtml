@@ -1,0 +1,132 @@
+﻿@model HiTech.Model.Entites.Product
+
+@{
+    ViewBag.Title = "Tạo mới sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Danh mục</label>
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Nhà cung cấp</label>
+            <div class="col-md-10">
+                @Html.DropDownList("SupplierID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control", @style = "display:none;" } })
+                @Html.TextBox("fileUpload", "", new { @style = "display:none;", @type = "file", @accept = "image/*" })
+                <img id="pictureUpload" width="200" height="200" /><br />
+                <input type="button" value="Chọn hình" id="btnUpload" class=" btn btn-info" />
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Discount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Discount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="#" onclick="window.history.back();">Trở lại trang trước</a>
+</div>
+@section upload{
+    <script>
+        $(function () {
+            //đăng kí sự kiện click nút btnUpload
+            $('#btnUpload').click(function () {
+                $('#fileUpload').trigger("click");
+
+            });
+            //Bắt sự kiện change data của file Upload
+            $('#fileUpload').change(function () {
+                //Kiểm tra trình duyệt có hỗ trợ formdata object không?
+                if (window.FormData !== undefined) {
+                    //Lấy dữ liệu trên fileUpload
+                    var fileUpload = $('#fileUpload').get(0);
+                    var files = fileUpload.files;
+                    //tạo đối tượng formdata
+                    var formData = new FormData();
+                    //đưa dữ liệu vào form
+                    formData.append('file', files[0]);
+                    $.ajax(
+                        {
+                            type: 'POST',
+                            url: '/Admin/Product/ProcessUpload',
+                            contentType: false, //không có header
+                            processData: false,
+                            data: formData,
+                            success: function (urlImage) {
+                                $('#pictureUpload').attr('src', urlImage);
+                                $('#Image').val(urlImage);
+                            },
+                            error: function (err) {
+                                alert('Có lỗi khi upload: ' + err.statusText);
+                            },
+                        }
+                    )
+                }
+            });
+
+        });
+    </script>
+}
