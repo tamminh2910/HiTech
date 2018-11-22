@@ -24,7 +24,7 @@ namespace HiTech.Model.Entites
         public DateTime OrderDate { get; set; }
 
         [Display(Name = "Ngày đã giao")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime? ShippedDate { get; set; }
 
         [Display(Name = "Địa chỉ giao hàng")]

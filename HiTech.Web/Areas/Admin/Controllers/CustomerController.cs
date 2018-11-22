@@ -4,17 +4,37 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-
+using PagedList;
 namespace HiTech.Web.Areas.Admin.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomerController : BaseController
     {
         private HiTechContext db = new HiTechContext();
 
         // GET: Admin/Customer
-        public ActionResult Index()
+        public ActionResult Index(int? page, string searchString, string currentFilter)
         {
-            return View(db.Customers.ToList());
+            var customer = db.Customers.ToList();
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                customer = db.Customers.Where(x => x.CustomerName.Contains(searchString)
+                                                || x.Address.Contains(searchString)
+                                                || x.Email.Contains(searchString)
+                                                || x.Phone.Contains(searchString)
+                                                || x.UserName.Contains(searchString)).ToList();
+            }
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+            return View(customer.ToPagedList(pageNumber,pageSize));
         }
 
         // GET: Admin/Customer/Details/5
@@ -51,6 +71,18 @@ namespace HiTech.Web.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            else
+            {
+                ModelState birthday = null;
+                if (ModelState.TryGetValue("birthday", out birthday))
+                {
+                    if (birthday != null && birthday.Errors.Count > 0)
+                    {
+                        ModelState.Remove("birthday");
+                        ModelState.AddModelError("birthday", "Ngày sinh không hợp lệ");
+                    }
+                }
+            }
 
             return View(customer);
         }
@@ -63,6 +95,7 @@ namespace HiTech.Web.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Customer customer = db.Customers.Find(id);
+
             if (customer == null)
             {
                 return HttpNotFound();
@@ -82,6 +115,18 @@ namespace HiTech.Web.Areas.Admin.Controllers
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState birthday = null;
+                if (ModelState.TryGetValue("birthday", out birthday))
+                {
+                    if (birthday != null && birthday.Errors.Count > 0)
+                    {
+                        ModelState.Remove("birthday");
+                        ModelState.AddModelError("birthday", "Ngày sinh không hợp lệ");
+                    }
+                }
             }
             return View(customer);
         }

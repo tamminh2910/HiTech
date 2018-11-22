@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using PagedList;
 namespace HiTech.Web.Areas.Admin.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private HiTechContext db = new HiTechContext();
 

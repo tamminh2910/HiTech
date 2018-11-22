@@ -1,12 +1,12 @@
-﻿@model PagedList.IPagedList<HiTech.Model.Entites.Customer>
+﻿@model PagedList.IPagedList<HiTech.Model.Entites.Supplier>
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "Quản lý khách hàng";
+    ViewBag.Title = "Quản lý nhà cung cấp";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <p>
-    @using (Html.BeginForm("Index", "Customer", FormMethod.Get))
+    @using (Html.BeginForm("Index", "Supplier", FormMethod.Get))
     {
         <div class="input-group  col-lg-4" style="margin:20px;">
             @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @placeholder = "Nhập từ khóa..." })
@@ -16,11 +16,10 @@
         </div>
     }
 </p>
-
-@using (Html.BeginForm("DeleteAll", "Customer", FormMethod.Post))
+@using (Html.BeginForm("DeleteAll", "Supplier", FormMethod.Post))
 {
     <p style="margin-left:20px; ">
-        <a href="@Url.Action("Create", "Customer")" data-toggle="tooltip" class="btn btn-primary " title="Thêm mới">
+        <a href="@Url.Action("Create", "Supplier")" data-toggle="tooltip" class="btn btn-primary " title="Thêm mới">
             <i class="fa fa-plus"></i>
         </a>
 
@@ -30,20 +29,21 @@
 
 
     </p>
-    <table class="table table-responsive" style="width:100%">
+
+    <table class="table">
         <tr>
-            <th style="width: 1px;" class="text-center">
+            <th class="col-md-1 text-center ">
+
                 <input type="checkbox" id="CheckboxAll" />
             </th>
             <th>
-                Tên đăng nhập
-            </th>
-
-            <th>
-                Tên khách hàng
+                Công ty
             </th>
             <th>
-                Ngày sinh
+                Người đại diện
+            </th>
+            <th>
+                Nội dung
             </th>
             <th>
                 Địa chỉ
@@ -54,25 +54,23 @@
             <th>
                 Email
             </th>
-
             <th></th>
         </tr>
 
         @foreach (var item in Model)
         {
             <tr>
-                <td class="text-center" style="vertical-align:middle;">
-                    @Html.CheckBox("CustomerID", new { value = item.CustomerID, @class = "CheckboxID" })
+                <td class="text-center">
+                    @Html.CheckBox("supplierID", new { value = item.SupplierID, @class = "CheckboxID" })
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.CustomerName)
+                    @Html.DisplayFor(modelItem => item.CompanyName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Birthday)
+                    @Html.DisplayFor(modelItem => item.ContactName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContacTitle)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
@@ -83,13 +81,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
-
                 <td class="text-center" style="vertical-align:middle;">
-                    <a href="@Url.Action("Edit", "Customer", new { id = item.CustomerID })" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Chỉnh sửa">
+                    <a href="@Url.Action("Edit", "Supplier", new { id = item.SupplierID })" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Chỉnh sửa">
                         <i class="fa fa-pencil"></i>
                     </a>
 
-                    <a href="@Url.Action("Details", "Customer", new { id = item.CustomerID })" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="Chi tiết">
+                    <a href="@Url.Action("Details", "Supplier", new { id = item.SupplierID })" data-toggle="tooltip" title="" class="btn btn-info" data-original-title="Chi tiết">
                         <i class="fa fa-info-circle"></i>
                     </a>
                 </td>
@@ -97,24 +94,33 @@
         }
 
     </table>
-}
-<br />
-<p>
-    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))
-</p>
+    <br />
+    <p>
+        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter })
+                      , new PagedListRenderOptions {
+                          DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                          DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                          DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                          DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                         MaximumPageNumbersToDisplay=5
+        })
+    </p>
 
-@section customerCheckDeleteAll{
+}
+@section supplierCheckDeleteAll{
     <script type="text/javascript">
         $(document).ready(function () {
             $('#CheckboxAll').click(function () {
-                if ($(this).is(':checked')) {
+                if ($(this).is(":checked")) {
                     $('.CheckboxID').prop("checked", true);
                 }
                 else {
                     $('.CheckboxID').prop("checked", false);
                 }
-            });
-        });
+            })
+
+        })
+
     </script>
 }

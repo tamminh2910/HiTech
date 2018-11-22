@@ -15,7 +15,8 @@ namespace HiTech.Model.Entites
         public string CustomerName { get; set; }
 
         [Display(Name = "Ngày sinh")]
-        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString ="{0:dd/MM/yyyy}",ApplyFormatInEditMode = true)]
+        [DataType(DataType.DateTime,ErrorMessage ="Ngày sinh không hợp lệ")]
         public DateTime? Birthday { get; set; }
 
         [Display(Name = "Địa chỉ")]

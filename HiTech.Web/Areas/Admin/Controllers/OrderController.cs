@@ -11,7 +11,7 @@ using HiTech.Model.Entites;
 
 namespace HiTech.Web.Areas.Admin.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : BaseController
     {
         private HiTechContext db = new HiTechContext();
 

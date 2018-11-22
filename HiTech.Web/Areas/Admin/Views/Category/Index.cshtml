@@ -2,13 +2,12 @@
 @using PagedList.Mvc;
 @{
 
-
     ViewBag.Title = "Quản lý danh mục";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Danh sách danh mục</h2>
-@ViewBag.UniqueUri
+
 <p>
     @using (Html.BeginForm("Index", "Category", FormMethod.Get))
     {
@@ -19,9 +18,9 @@
             </span>
         </div>
     }
-
-    @using (Html.BeginForm("DeleteAll", "Category", FormMethod.Post))
-    {
+</p>
+@using (Html.BeginForm("DeleteAll", "Category", FormMethod.Post))
+{
 
     <p style="margin-left:20px;">
         <a href="@Url.Action("Create", "Category")" data-toggle="tooltip" class="btn btn-primary " title="Thêm mới">
@@ -83,19 +82,19 @@
         </div>
     </div>
 }
-    @section categoryCheckDeleteAll{
-        <script type="text/javascript">
-            $(document).ready(function () {
+@section categoryCheckDeleteAll{
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-                $('#CheckboxAll').click(function () {
-                    if ($(this).is(":checked")) {
-                        $('.CheckboxID').prop("checked", true)
-                    }
-                    else {
-                        $('.CheckboxID').prop("checked", false)
-                    }
+            $('#CheckboxAll').click(function () {
+                if ($(this).is(":checked")) {
+                    $('.CheckboxID').prop("checked", true)
+                }
+                else {
+                    $('.CheckboxID').prop("checked", false)
+                }
 
-                })
             })
-        </script>
-    }
+        })
+    </script>
+}

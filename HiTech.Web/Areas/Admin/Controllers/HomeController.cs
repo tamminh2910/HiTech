@@ -7,7 +7,7 @@ using HiTech.Model;
 using HiTech.Model.Entites;
 namespace HiTech.Web.Areas.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private HiTechContext db = new HiTechContext();
         // GET: Admin/Home
@@ -16,6 +16,11 @@ namespace HiTech.Web.Areas.Admin.Controllers
             var category = db.Categories.ToList();
             ViewBag.XinChao = "Chào mừng bạn đến với trang Admin!!";
             return View(category);
+        }
+        public ActionResult LogOut()
+        {
+            Session.Clear();
+            return RedirectToAction("Index", "Account");
         }
     }
 }

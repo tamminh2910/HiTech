@@ -1,19 +1,22 @@
 ﻿using HiTech.Model;
 using HiTech.Model.Entites;
 using PagedList;
+using System;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 namespace HiTech.Web.Areas.Admin.Controllers
 {
-    public class CategoryController : BaseController
+    public class SupplierController : BaseController
     {
         private HiTechContext db = new HiTechContext();
 
-        // GET: Admin/Category
+        // GET: Admin/Supplier
         public ActionResult Index(int? page, string searchString, string currentFilter)
         {
+            var supplier = db.Suppliers.ToList();
             if (searchString != null)
             {
                 page = 1;
@@ -23,130 +26,131 @@ namespace HiTech.Web.Areas.Admin.Controllers
                 searchString = currentFilter;
             }
             ViewBag.CurrentFilter = searchString;
-            var cate = db.Categories.ToList();
             if (!string.IsNullOrEmpty(searchString))
             {
-                cate = db.Categories.Where(c => c.CategoryName.ToUpper().Contains(searchString)).ToList();
+                supplier = db.Suppliers.Where(x => x.CompanyName.Contains(searchString)
+                                              || x.ContactName.Contains(searchString)
+                                              || x.Email.Contains(searchString)
+                                              || x.Phone.Contains(searchString)
+                                              || x.Address.Contains(searchString)
+                                              || x.ContacTitle.Contains(searchString)).ToList();
             }
-            int pageSize = 2;
+            int pageSize = 1;
             int pageNumber = (page ?? 1);
-            return View(cate.ToPagedList(pageNumber, pageSize));
+            return View(supplier.ToPagedList(pageNumber, pageSize));
         }
 
-
-        // GET: Admin/Category/Details/5
+        // GET: Admin/Supplier/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Supplier supplier = db.Suppliers.Find(id);
+            if (supplier == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(supplier);
         }
 
-        // GET: Admin/Category/Create
+        // GET: Admin/Supplier/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Category/Create
+        // POST: Admin/Supplier/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryID,CategoryName,Description")] Category category)
+        public ActionResult Create([Bind(Include = "SupplierID,CompanyName,ContactName,ContacTitle,Address,Phone,Email")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
-                db.Categories.Add(category);
+                db.Suppliers.Add(supplier);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(category);
+            return View(supplier);
         }
 
-        // GET: Admin/Category/Edit/5
+        // GET: Admin/Supplier/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Supplier supplier = db.Suppliers.Find(id);
+            if (supplier == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(supplier);
         }
 
-        // POST: Admin/Category/Edit/5
+        // POST: Admin/Supplier/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryID,CategoryName,Description")] Category category)
+        public ActionResult Edit([Bind(Include = "SupplierID,CompanyName,ContactName,ContacTitle,Address,Phone,Email")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(category).State = EntityState.Modified;
+                db.Entry(supplier).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(category);
+            return View(supplier);
         }
 
-        // GET: Admin/Category/Delete/5
+        // GET: Admin/Supplier/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Supplier supplier = db.Suppliers.Find(id);
+            if (supplier == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(supplier);
         }
 
-        // POST: Admin/Category/Delete/5
+        // POST: Admin/Supplier/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Category category = db.Categories.Find(id);
-            db.Categories.Remove(category);
+            Supplier supplier = db.Suppliers.Find(id);
+            db.Suppliers.Remove(supplier);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-        //DeleteAll
         [HttpPost]
         public ActionResult DeleteAll(FormCollection formCollection)
         {
-            string[] ids = formCollection["CategoryID"].Split(new char[] { ',' });
+            string[] ids = formCollection["supplierID"].Split(new char[] { ',' });
             foreach (string id in ids)
             {
                 if (id != "false")
                 {
-                    var category = db.Categories.Find(int.Parse(id));
-                    var proc = db.Products.FirstOrDefault(x => x.CategoryID == category.CategoryID);
+                    var supplier = db.Suppliers.Find(int.Parse(id));
+                    var proc = db.Products.FirstOrDefault(x => x.SupplierID == supplier.SupplierID);
                     if (proc != default(Product))
                     {
 
                     }
                     else
                     {
-                        db.Categories.Remove(category);
+                        db.Suppliers.Remove(supplier);
                         db.SaveChanges();
                     }
 
@@ -154,6 +158,7 @@ namespace HiTech.Web.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
