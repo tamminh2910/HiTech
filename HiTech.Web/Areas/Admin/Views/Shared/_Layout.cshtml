@@ -140,7 +140,8 @@
                         </li>
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
-                            @Html.Partial("_PartialProfile")
+
+                            @RenderPage("~/Areas/Admin/Views/Shared/_PartialProfile.cshtml")
                         </li>
                         <!-- Control Sidebar Toggle Button -->
                         <li>
@@ -152,7 +153,7 @@
         </header>
         <!-- =============================================== -->
         <!-- Left side column. contains the sidebar -->
-        @Html.Partial("_PartialMenu")
+        @RenderPage("~/Areas/Admin/Views/Shared/_PartialMenu.cshtml")
         <!-- =============================================== -->
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -377,6 +378,8 @@
         $(document).ready(function () {
             $('.sidebar-menu').tree()
         })
+        
+        
     </script>
     @RenderSection("upload", required: false)
     @RenderSection("categoryCheckDeleteAll", required: false)

@@ -43,7 +43,7 @@
 
             @using (Html.BeginForm("Login", "Account", FormMethod.Post))
             {
-
+            @Html.AntiForgeryToken()
                 <div class="form-group has-feedback">
                     @Html.TextBox("userName", "", new { @class = "form-control", @placeholder = "Tên đăng nhập" })
                     @Html.ValidationMessage("NotExistUsername", new { @class = "text-danger" })

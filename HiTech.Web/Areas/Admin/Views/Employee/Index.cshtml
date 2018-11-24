@@ -1,0 +1,86 @@
+﻿@model PagedList.IPagedList<HiTech.Model.Entites.Employee>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Index", "Product", FormMethod.Get))
+{
+    <div class="input-group  col-lg-4" style="margin:20px; ">
+        @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control", @placeholder = "Nhập từ khóa..." })
+        <span class="input-group-btn">
+            <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+        </span>
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            Tên nhân viên
+        </th>
+        <th>
+            Ngày sinh
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Hình ảnh
+        </th>
+        <th>
+            Tên đăng nhập
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+
+            <td class="text-center" style="vertical-align:middle;">
+                <a href="@Url.Action("Edit","Employee", new { id = item.EmployeeID })" data-toggle="tooltip" title="Chỉnh sửa" class="btn btn-primary" data-original-title="Chỉnh sửa">
+                    <i class="fa fa-pencil"></i>
+                </a>
+
+                <a href="@Url.Action("Details","Employee", new { id = item.EmployeeID })" data-toggle="tooltip" title="Chi tiết" class="btn btn-info" data-original-title="Chi tiết">
+                    <i class="fa fa-info-circle"></i>
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }))

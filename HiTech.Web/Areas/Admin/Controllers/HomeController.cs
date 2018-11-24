@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HiTech.Model;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using HiTech.Model;
-using HiTech.Model.Entites;
 namespace HiTech.Web.Areas.Admin.Controllers
 {
     public class HomeController : BaseController
@@ -21,6 +17,11 @@ namespace HiTech.Web.Areas.Admin.Controllers
         {
             Session.Clear();
             return RedirectToAction("Index", "Account");
+        }
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

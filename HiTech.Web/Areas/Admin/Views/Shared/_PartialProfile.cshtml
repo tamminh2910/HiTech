@@ -1,44 +1,54 @@
-﻿
+﻿@using HiTech.Model.Entites
 
-<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-    <img src="~/Areas/Admin/Script/dist/img/user2-160x160.jpg" width="160" height="160" class="user-image" alt="User Image">
-    <span class="hidden-xs"> sdfhdkhfkdhs</span>
-</a>
-<ul class="dropdown-menu">
-    <!-- User image -->
-    <li class="user-header">
-        <img src="~/Areas/Admin/Script/dist/img/user2-160x160.jpg" width="160" height="160" class="img-circle" alt="User Image">
-        <p>
-                
-        </p>
-    </li>
-    <!-- Menu Body -->
-    <li class="user-body">
-        <div class="row">
-            <div class="col-xs-4 text-center">
-                <a href="#">Followers</a>
+@{
+    var admin = Session["Admin"] as Employee;
+}
+@if (admin != null)
+{
+
+
+
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <img src="~/Areas/Admin/Script/dist/img/user2-160x160.jpg" width="160" height="160" class="user-image" alt="User Image">
+        <span class="hidden-xs"> @admin.EmployeeName </span>
+    </a>
+    <ul class="dropdown-menu">
+        <!-- User image -->
+        <li class="user-header">
+            <img src="~/Areas/Admin/Script/dist/img/user2-160x160.jpg" width="160" height="160" class="img-circle" alt="User Image">
+            <p>
+                @admin.EmployeeName
+            </p>
+        </li>
+        <!-- Menu Body -->
+        <li class="user-body">
+            <div class="row">
+                <div class="col-xs-4 text-center">
+                    <a href="#">Followers</a>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <a href="#">Sales</a>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <a href="#">Friends</a>
+                </div>
             </div>
-            <div class="col-xs-4 text-center">
-                <a href="#">Sales</a>
+            <!-- /.row -->
+        </li>
+        <!-- Menu Footer-->
+        <li class="user-footer">
+            <div class="pull-left">
+
+                <a href="#" class="btn btn-default btn-flat">Profile</a>
+
+
+
             </div>
-            <div class="col-xs-4 text-center">
-                <a href="#">Friends</a>
+            <div class="pull-right">
+                <a href="@Url.Action("LogOut", "Home")" class="btn btn-default btn-flat">Sign out</a>
             </div>
-        </div>
-        <!-- /.row -->
-    </li>
-    <!-- Menu Footer-->
-    <li class="user-footer">
-        <div class="pull-left">
+        </li>
+    </ul>
+}
 
-            <a href="#" class="btn btn-default btn-flat">Profile</a>
-
-
-
-        </div>
-        <div class="pull-right">
-            <a href="@Url.Action("LogOut","Home")" class="btn btn-default btn-flat">Sign out</a>
-        </div>
-    </li>
-</ul>
 

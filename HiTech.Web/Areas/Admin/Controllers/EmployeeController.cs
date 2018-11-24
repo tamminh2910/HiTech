@@ -1,21 +1,20 @@
 ﻿using HiTech.Model;
 using HiTech.Model.Entites;
-using PagedList;
-using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using PagedList;
 namespace HiTech.Web.Areas.Admin.Controllers
 {
-   
-    public class CategoryController : BaseController
+    public class EmployeeController : BaseController
     {
         private HiTechContext db = new HiTechContext();
 
+        // GET: Admin/Employee
+        
 
-        // GET: Admin/Category
-
+        [HttpGet]
         public ActionResult Index(int? page, string searchString, string currentFilter)
         {
             if (searchString != null)
@@ -27,137 +26,119 @@ namespace HiTech.Web.Areas.Admin.Controllers
                 searchString = currentFilter;
             }
             ViewBag.CurrentFilter = searchString;
-            var cate = db.Categories.ToList();
+            var employees = db.Employees.ToList();
             if (!string.IsNullOrEmpty(searchString))
             {
-                cate = db.Categories.Where(c => c.CategoryName.ToUpper().Contains(searchString)).ToList();
+                employees = db.Employees.Where(x => x.EmployeeName.Contains(searchString)
+                                                 || x.Address.Contains(searchString)
+                                                 || x.Email.Contains(searchString)
+                                                 || x.Phone.Contains(searchString)
+                                                 || x.UserName.Contains(searchString)).ToList();
             }
-            int pageSize = 2;
-            int pageNumber = (page ?? 1);
-            return View(cate.ToPagedList(pageNumber, pageSize));
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+            return View(employees.ToPagedList(pageNumber,pageSize));
         }
 
-
-        // GET: Admin/Category/Details/5
+        // GET: Admin/Employee/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(employee);
         }
 
-        // GET: Admin/Category/Create
+        // GET: Admin/Employee/Create
         public ActionResult Create()
         {
+            ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "Description");
             return View();
         }
 
-        // POST: Admin/Category/Create
+        // POST: Admin/Employee/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryID,CategoryName,Description")] Category category)
+        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,Birthday,Address,Phone,Email,Image,UserName,Password,RoleName")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                db.Categories.Add(category);
+                db.Employees.Add(employee);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(category);
+            ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "Description", employee.RoleName);
+            return View(employee);
         }
 
-        // GET: Admin/Category/Edit/5
+        // GET: Admin/Employee/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "Description", employee.RoleName);
+            return View(employee);
         }
 
-        // POST: Admin/Category/Edit/5
+        // POST: Admin/Employee/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryID,CategoryName,Description")] Category category)
+        public ActionResult Edit([Bind(Include = "EmployeeID,EmployeeName,Birthday,Address,Phone,Email,Image,UserName,Password,RoleName")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(category).State = EntityState.Modified;
+                db.Entry(employee).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(category);
+            ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "Description", employee.RoleName);
+            return View(employee);
         }
 
-        // GET: Admin/Category/Delete/5
+        // GET: Admin/Employee/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = db.Categories.Find(id);
-            if (category == null)
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(employee);
         }
 
-        // POST: Admin/Category/Delete/5
+        // POST: Admin/Employee/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Category category = db.Categories.Find(id);
-            db.Categories.Remove(category);
+            Employee employee = db.Employees.Find(id);
+            db.Employees.Remove(employee);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        //DeleteAll
-        [HttpPost]
-        public ActionResult DeleteAll(FormCollection formCollection)
-        {
-            string[] ids = formCollection["CategoryID"].Split(new char[] { ',' });
-            foreach (string id in ids)
-            {
-                if (id != "false")
-                {
-                    var category = db.Categories.Find(int.Parse(id));
-                    var proc = db.Products.FirstOrDefault(x => x.CategoryID == category.CategoryID);
-                    if (proc != default(Product))
-                    {
-
-                    }
-                    else
-                    {
-                        db.Categories.Remove(category);
-                        db.SaveChanges();
-                    }
-
-                }
-            }
-            return RedirectToAction("Index");
-        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

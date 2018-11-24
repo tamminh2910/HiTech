@@ -4,13 +4,13 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
-
 namespace HiTech.Web.Areas.Admin.Controllers
 {
     public class AccountController : Controller
     {
         private HiTechContext db = new HiTechContext();
         // GET: Admin/Account
+        [OutputCache(NoStore = true, Duration = 0)]
         public ActionResult Index()
         {
             if (Session["Admin"] != null)
@@ -21,6 +21,7 @@ namespace HiTech.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(string username, string password, bool rememberMe)
         {
             if (ModelState.IsValid)
@@ -31,10 +32,9 @@ namespace HiTech.Web.Areas.Admin.Controllers
                     var acc = db.Employees.FirstOrDefault(x => x.UserName == username && x.Password == password);
                     if (acc != default(Employee))
                     {
-                        
-                        Session.Add("Admin", username);
-                        
-                        return RedirectToAction("Index","Home");
+                        Session["Admin"] = new Employee() { Image = acc.Image, EmployeeName = acc.EmployeeName };
+                        return RedirectToAction("Index", "Home");
+
                     }
                     else
                     {
@@ -59,7 +59,6 @@ namespace HiTech.Web.Areas.Admin.Controllers
             }
             base.OnActionExecuting(filterContext);
         }
-       
         protected override void Dispose(bool disposing)
         {
             if (disposing)

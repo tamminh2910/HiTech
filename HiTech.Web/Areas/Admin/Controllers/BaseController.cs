@@ -3,6 +3,7 @@ using System.Web.Routing;
 using HiTech.Model;
 namespace HiTech.Web.Areas.Admin.Controllers
 {
+    [OutputCache(NoStore = true, Duration = 0)]
     public class BaseController : Controller
     {
 
