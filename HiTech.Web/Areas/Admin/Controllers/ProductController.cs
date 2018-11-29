@@ -66,7 +66,7 @@ namespace HiTech.Web.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,CategoryID,SupplierID,Name,UnitPrice,Image,Discount,Description,State")] Product product)
+        public ActionResult Create([Bind(Include = "ProductID,CategoryID,SupplierID,Name,Price,Image,Discount,Description,State")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace HiTech.Web.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductID,CategoryID,SupplierID,Name,UnitPrice,Image,RegisterDate,Discount,Description,State")] Product product)
+        public ActionResult Edit([Bind(Include = "ProductID,CategoryID,SupplierID,Name,Price,Image,RegisterDate,Discount,Description,State")] Product product)
         {
             if (ModelState.IsValid)
             {

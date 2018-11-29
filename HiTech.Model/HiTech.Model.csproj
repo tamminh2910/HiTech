@@ -80,6 +80,10 @@
     <Compile Include="Migrations\201811190120234_NotNullAllDB.Designer.cs">
       <DependentUpon>201811190120234_NotNullAllDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811291549231_updateProductDB.cs" />
+    <Compile Include="Migrations\201811291549231_updateProductDB.Designer.cs">
+      <DependentUpon>201811291549231_updateProductDB.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -109,6 +113,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811190120234_NotNullAllDB.resx">
       <DependentUpon>201811190120234_NotNullAllDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811291549231_updateProductDB.resx">
+      <DependentUpon>201811291549231_updateProductDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

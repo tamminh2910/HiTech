@@ -1,0 +1,107 @@
+﻿@model HiTech.Web.Models.ProductCategoryViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div id="content" class="col-sm-12">
+        <div class="swiper-viewport">
+            <div id="slideshow0" class="swiper-container swiper-container-horizontal">
+                <div class="swiper-wrapper" style="transform: translate3d(-3486px, 0px, 0px); transition-duration: 0ms;">
+                    <div class="swiper-slide text-center swiper-slide-duplicate swiper-slide-next swiper-slide-duplicate-prev"
+                         data-swiper-slide-index="1" style="width: 1132px; margin-right: 30px;"><img src="./Your Store_files/MacBookAir-1140x380.jpg" alt="MacBookAir" class="img-responsive"></div>
+                    <div class="swiper-slide text-center swiper-slide-duplicate-active"
+                         data-swiper-slide-index="0" style="width: 1132px; margin-right: 30px;">
+                        <a href="https://demo.opencart.com/index.php?route=product/product&amp;path=57&amp;product_id=49">
+                            <img src="./Your Store_files/iPhone6-1140x380.jpg"
+                                 alt="iPhone 6" class="img-responsive">
+                        </a>
+                    </div>
+                    <div class="swiper-slide text-center swiper-slide-prev swiper-slide-duplicate-next" data-swiper-slide-index="1" style="width: 1132px; margin-right: 30px;">
+                        <img src="./Your Store_files/MacBookAir-1140x380.jpg" alt="MacBookAir" class="img-responsive">
+                    </div>
+                    <div class="swiper-slide text-center swiper-slide-duplicate swiper-slide-active" data-swiper-slide-index="0" style="width: 1132px; margin-right: 30px;">
+                        <a href="https://demo.opencart.com/index.php?route=product/product&amp;path=57&amp;product_id=49">
+                            <img src="./Your Store_files/iPhone6-1140x380.jpg"
+                                 alt="iPhone 6" class="img-responsive">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination slideshow0 swiper-pagination-clickable swiper-pagination-bullets">
+                <span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span>
+            </div>
+            <div class="swiper-pager">
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $('#slideshow0').swiper({
+                mode: 'horizontal',
+                slidesPerView: 1,
+                pagination: '.slideshow0',
+                paginationClickable: true,
+                nextButton: '.swiper-button-next',
+                prevButton: '.swiper-button-prev',
+                spaceBetween: 30,
+                autoplay: 2500,
+                autoplayDisableOnInteraction: true,
+                loop: true
+            });
+        </script>
+
+
+
+
+        @foreach (var cate in Model.Category.Take(3))
+        {
+            <h3>@cate.CategoryName</h3>
+            <div class="row">
+                @{ 
+                    var Product = Model.Product.Where(x => x.CategoryID == cate.CategoryID).Take(4);
+                }
+                @foreach (var prod in Product)
+                {
+                    <div class="product-layout col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="product-thumb transition">
+                            <div class="image" style="padding:10px;">
+                                <a href="#">
+                                    <img src="@prod.Image" width="200" height="200"
+                                         alt="@prod.Name" title="@prod.Name" class="img-responsive">
+                                </a>
+                            </div>
+                            <div class="content" style="padding:10px;">
+                                <h4><a href="#">@prod.Name</a></h4>
+
+                                <p class="price">
+
+                                    <span class="price-tax">Ex Tax: $500.00</span>
+                                </p>
+                            </div>
+                            <div class="button-group ">
+                                <button type="button">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span class="hidden-xs hidden-sm hidden-md">
+                                        Add
+                                        to Cart
+                                    </span>
+                                </button>
+                                <button type="button" data-toggle="tooltip" title="" onclick="wishlist.add(&#39;43&#39;);" data-original-title="Add to Wish List">
+                                    <i class="fa fa-heart"></i>
+                                </button>
+                                <button type="button" data-toggle="tooltip" title="" onclick="compare.add(&#39;43&#39;);" data-original-title="Compare this Product">
+                                    <i class="fa fa-exchange"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+
+    </div>
+</div>
+
+

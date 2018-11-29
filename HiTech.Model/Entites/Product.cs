@@ -22,7 +22,7 @@ namespace HiTech.Model.Entites
 
         [Display(Name = "Giá bán")]
         [Required(ErrorMessage ="Vui lòng nhập giá bán!")]
-        public decimal? UnitPrice { get; set; }
+        public decimal? Price { get; set; }
 
         [Display(Name = "Hình ảnh")]
         public string Image { get; set; }
