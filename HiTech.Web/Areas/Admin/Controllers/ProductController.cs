@@ -165,9 +165,9 @@ namespace HiTech.Web.Areas.Admin.Controllers
 
             //xử lý upload
 
-            file.SaveAs(Server.MapPath("~/Content/Images/" + file.FileName));
+            file.SaveAs(Server.MapPath("~/Content/Images/Product" + file.FileName));
 
-            return "/Content/Images/" + file.FileName;
+            return "/Content/Images/Product" + file.FileName;
         }
         protected override void Dispose(bool disposing)
         {

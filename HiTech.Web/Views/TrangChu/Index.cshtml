@@ -58,7 +58,7 @@
         {
             <h3>@cate.CategoryName</h3>
             <div class="row">
-                @{ 
+                @{
                     var Product = Model.Product.Where(x => x.CategoryID == cate.CategoryID).Take(4);
                 }
                 @foreach (var prod in Product)
@@ -67,7 +67,7 @@
                         <div class="product-thumb transition">
                             <div class="image" style="padding:10px;">
                                 <a href="#">
-                                    <img src="@prod.Image" width="200" height="200"
+                                    <img src="@prod.Image" width="150" height="150"
                                          alt="@prod.Name" title="@prod.Name" class="img-responsive">
                                 </a>
                             </div>
@@ -76,32 +76,83 @@
 
                                 <p class="price">
 
-                                    <span class="price-tax">Ex Tax: $500.00</span>
+                                    <span class="price-tax">@string.Format("{0:n0}", prod.Price) đ</span>
+                                    <span class="price-old">@string.Format("{0:n0}", prod.Discount) đ</span>
+
                                 </p>
+
                             </div>
                             <div class="button-group ">
-                                <button type="button">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span class="hidden-xs hidden-sm hidden-md">
-                                        Add
-                                        to Cart
+                                @*<button type="button" class="btnAddToCart" onclick="location.href='@Url.Action("_PartialCart", "TrangChu",new { productID=prod.ProductID})'">
+                                        <i class="fa fa-shopping-cart"></i><span class="hidden-xs hidden-sm hidden-md">
+                                            Mua ngay
+                                        </span>
+                                    </button>*@
+                                <button type="button" class="btnAddToCart" value="@prod.ProductID" data-toggle="modal" data-target="#myModal">
+                                    <i class="fa fa-shopping-cart"></i><span class="hidden-xs hidden-sm hidden-md">
+                                        Mua ngay
                                     </span>
                                 </button>
-                                <button type="button" data-toggle="tooltip" title="" onclick="wishlist.add(&#39;43&#39;);" data-original-title="Add to Wish List">
-                                    <i class="fa fa-heart"></i>
-                                </button>
-                                <button type="button" data-toggle="tooltip" title="" onclick="compare.add(&#39;43&#39;);" data-original-title="Compare this Product">
-                                    <i class="fa fa-exchange"></i>
-                                </button>
+
                             </div>
                         </div>
                     </div>
                 }
             </div>
         }
-
-
     </div>
 </div>
 
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                <h4 class="modal-title">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p>Thêm vào giỏ hàng thành công</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section AddToCart{
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    $(".btnAddToCart").click(function () {
+        //        alert("button");
+        //    });
+        //});
+        $(document).ready(function () {
+
+            $('.btnAddToCart').click(function () {
+
+                var productID = $(this).val();
+
+                //Đúng
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AddToCart", "TrangChu")',
+                    contentType: "application/json; charset=utf-8",
+                    data: '{"id":"' + productID + '"}',
+
+                    success: function (result) {
+                        $('#giohang').html(result);
+
+                    },
+                    error: function () { alert('Fail'); }
+                    });
+
+            });
+
+
+
+
+        });
+    </script>
+}
 

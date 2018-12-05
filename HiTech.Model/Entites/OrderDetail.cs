@@ -14,10 +14,10 @@ namespace HiTech.Model.Entites
         public int ProductID { get; set; }
 
         [Display(Name = "Đơn giá")]
-        public decimal UnitPrice { get; set; }
+        public decimal? UnitPrice { get; set; }
 
         [Display(Name = "Số lượng")]
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
 
         [Display(Name = "Giảm giá")]
         public int? Discount { get; set; }

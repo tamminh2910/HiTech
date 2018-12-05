@@ -1,0 +1,49 @@
+﻿@using HiTech.Web.Models
+@model ProductCategoryViewModel
+<nav id="menu" class="navbar">
+    <div class="navbar-header">
+        <span id="category" class="visible-xs">Categories</span>
+        <button type="button" class="btn btn-navbar navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"><i class="fa fa-bars"></i></button>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+
+        <ul class="nav navbar-nav">
+            <li><a href="@Url.Action("Index","TrangChu")">Trang chủ</a></li>
+            @foreach (var category in Model.Category.Take(5))
+            {
+
+                <li class="dropdown">
+                    <a href="https://demo.opencart.com/index.php?route=product/category&amp;path=20" class="dropdown-toggle"
+                       data-toggle="dropdown">@category.CategoryName</a>
+
+                </li>
+            }
+            @if (Model.Category.Skip(5).Count() > 0)
+            {
+                <li class="dropdown">
+                    <a href="https://demo.opencart.com/index.php?route=product/category&amp;path=18" class="dropdown-toggle"
+                       data-toggle="dropdown">Xem thêm</a>
+
+                    <div class="dropdown-menu" style="">
+                        <div class="dropdown-inner">
+                            <ul class="list-unstyled">
+
+
+                                @foreach (var cate in Model.Category.Skip(5))
+                                {
+                                    <li><a href="https://demo.opencart.com/index.php?route=product/category&amp;path=18_46">@cate.CategoryName</a></li>
+
+                                }
+
+
+                            </ul>
+                        </div>
+
+                    </div>
+
+
+                </li>
+            }
+        </ul>
+    </div>
+</nav>

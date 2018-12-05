@@ -84,6 +84,14 @@
     <Compile Include="Migrations\201811291549231_updateProductDB.Designer.cs">
       <DependentUpon>201811291549231_updateProductDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811300630531_updateNullPriceDB.cs" />
+    <Compile Include="Migrations\201811300630531_updateNullPriceDB.Designer.cs">
+      <DependentUpon>201811300630531_updateNullPriceDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812010306504_updateDecimalDisCount.cs" />
+    <Compile Include="Migrations\201812010306504_updateDecimalDisCount.Designer.cs">
+      <DependentUpon>201812010306504_updateDecimalDisCount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -116,6 +124,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811291549231_updateProductDB.resx">
       <DependentUpon>201811291549231_updateProductDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811300630531_updateNullPriceDB.resx">
+      <DependentUpon>201811300630531_updateNullPriceDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812010306504_updateDecimalDisCount.resx">
+      <DependentUpon>201812010306504_updateDecimalDisCount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

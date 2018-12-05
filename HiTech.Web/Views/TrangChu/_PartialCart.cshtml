@@ -1,0 +1,88 @@
+﻿
+<div id="cart" class="btn-group btn-block">
+
+    @{
+        var cart = Session["Cart"] as List<HiTech.Web.Models.ItemCart>;
+        decimal? tongTien = 0;
+        
+    }
+    <button type="button" data-toggle="dropdown" data-loading-text="Loading..." class="btn btn-inverse btn-block btn-lg dropdown-toggle">
+        @if (cart != null)
+        {
+
+            <i class="fa fa-shopping-cart"></i> <span id="cart-total">Giỏ hàng (@cart.Sum(x=>x.Quantity) sản phẩm) </span>
+        }
+        else
+        {
+            <i class="fa fa-shopping-cart"></i> <span id="cart-total">Giỏ hàng (0 sản phẩm)</span>
+
+        }
+    </button>
+    @if (cart == null || cart.Count==0)
+    {
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <p class="text-center">Giỏ hàng của bạn trống!</p>
+            </li>
+        </ul>
+    }
+    else
+    {
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <table class="table table-striped">
+                    <tbody>
+                        @foreach (var prod in cart)
+                        {
+                            tongTien += prod.Product.Price * prod.Quantity;
+                            <tr>
+                                <td class="text-center">
+                                    <a href="#">
+                                        <img src="@prod.Product.Image" width="47" height="47" alt="iPhone" title="iPhone" class="img-thumbnail">
+                                    </a>
+                                </td>
+                                <td class="text-left">
+                                    <a href="#">@prod.Product.Name</a>
+                                </td>
+                                <td class="text-right">@prod.Quantity</td>
+                                <td class="text-right">@string.Format("{0:n0}", prod.Product.Price) đ</td>
+                                <td class="text-center">
+                                    <button type="button" onclick="location.href='@Url.Action("RemoveProductCart","TrangChu", new { id= prod.Product.ProductID })'" title="Remove"  class="btn btn-danger btn-xs">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </li>
+            <li>
+                <div>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="text-right"><strong>Tổng tiền</strong></td>
+                                <td class="text-right">@String.Format("{0:n0}", tongTien) đ</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <p class="text-right">
+                        <a href="@Url.Action("Index","Cart")">
+                            <strong>
+                                <i class="fa fa-shopping-cart"></i>
+                                View Cart
+                            </strong>
+                        </a>&nbsp;&nbsp;&nbsp;<a href="@Url.Action("Index","Cart")">
+                            <strong>
+                                <i class="fa fa-share"></i> Checkout
+                            </strong>
+                        </a>
+                    </p>
+                </div>
+            </li>
+        </ul>
+    }
+
+</div>
+

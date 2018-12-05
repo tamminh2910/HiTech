@@ -702,7 +702,7 @@ h2.price {
 }
 
 .product-thumb .price {
-    color: #444
+    color: #0017cb
 }
 
 .product-thumb .price-new {
@@ -716,14 +716,21 @@ h2.price {
 }
 
 .product-thumb .price-tax {
-    color: #999;
-    font-size: 12px;
-    display: block
-}
+    color: red;
+    font-weight: bold;
+    font-size: 15px;
 
+}
+.product-thumb .price-discount {
+    color: #080707;
+    font-size: 12px;
+    text-decoration: line-through;
+    
+}
 .product-thumb .button-group {
     border-top: 1px solid #ddd;
     background-color: #eee;
+
     overflow: auto
 }
 
@@ -738,12 +745,12 @@ h2.price {
 }
 
 .product-thumb .button-group button {
-    width: 60%;
+    width: 100%;
     border: none;
-   
+    
     float: left;
     background-color: #eee;
-    color: #888;
+    color: blue;
     line-height: 38px;
     font-weight: 700;
     text-align: center;

@@ -1,0 +1,149 @@
+﻿@model IEnumerable<HiTech.Web.Models.ItemCart>
+
+@{
+    var cart = Session["Cart"] as List<HiTech.Web.Models.ItemCart>;
+    decimal? tongTien = 0;
+
+}
+<div id="checkout-cart" class="container">
+    <ul class="breadcrumb">
+        <li><a href="https://demo.opencart.com/index.php?route=common/home"><i class="fa fa-home"></i></a></li>
+        <li><a href="https://demo.opencart.com/index.php?route=checkout/cart">Giỏ hàng</a></li>
+    </ul>
+    @*<div class="alert alert-danger alert-dismissible">
+            <i class="fa fa-exclamation-circle"></i> Products marked with *** are
+            not available in the desired quantity or not in stock!
+            <button type="button" class="close" data-dismiss="alert">×</button>
+        </div>*@
+
+    <div class="row">
+        <div id="content" class="col-sm-12">
+            @if (Model == null)
+            {
+                <h2>
+                    Giỏ hàng
+                </h2>
+                <div class="buttons clearfix">
+                    <div class="pull-left">
+                        <a href="@Url.Action("Index", "TrangChu")" class="btn btn-default">
+                            Tiếp tục mua sắm
+                        </a>
+                    </div>
+
+                </div>
+
+            }
+            else
+            {
+                <h2>
+                    Giỏ hàng
+                </h2>
+
+                if (Model.Sum(x => x.Quantity) > 0)
+                {
+
+                    <div class="table-responsive table-cart">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td class="text-center">Hình</td>
+                                    <td class="text-left">Tên sản phẩm</td>
+                                    <td class="text-left">Số lượng</td>
+                                    <td class="text-right">Giá bán</td>
+                                    <td class="text-right">Tổng tiền</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var prod in Model)
+                                {
+                                    {
+                                        tongTien += prod.Product.Price * prod.Quantity;
+                                    }
+                                    <tr>
+                                        <td class="text-center">
+                                            <a href="#">
+                                                <img src="@prod.Product.Image" alt="@prod.Product.Name" title="@prod.Product.Name" width="100" height="100  "
+                                                     class="img-thumbnail">
+                                            </a>
+                                        </td>
+                                        <td class="text-left">
+                                            <a href="#">
+                                                @prod.Product.Name
+                                            </a>
+                                        </td>
+                                        <td class="text-left ">
+
+                                            <div class="input-group btn-block" style="max-width: 200px;">
+                                                @using (Ajax.BeginForm("UpdateQuantity", "Cart", new AjaxOptions()
+                                                {
+
+                                                    UpdateTargetId = "checkout-cart",
+                                                    HttpMethod = "POST",
+                                                    InsertionMode = InsertionMode.Replace
+                                                }))
+                                                {
+                                                    <input type="hidden" class="productID" name="productID" value="@prod.Product.ProductID" />
+                                                    <input type="number" name="quantity" dirname="quantity" class="soluong form-control" value="@prod.Quantity" size="1" min="0" max="1000" style="width: 10em" />
+                                                    <span class="input-group-btn">
+                                                        @*@Ajax.ActionLink(" ", "UpdateQuantity", new { productID = prod.Product.ProductID }, new AjaxOptions
+                                    {
+                                        UpdateTargetId="table-cart",
+                                        HttpMethod = "Post",
+                                        InsertionMode = InsertionMode.Replace,
+                                    }, new { @class = "btn btn-primary  glyphicon glyphicon-refresh", @title = "Cập nhật số lượng" , @data_toggle = "tooltip" })*@
+                                                        <button type="submit" data-toggle="tooltip" title="Cập nhật số lượng" class="btnUpdate btn btn-primary" data-original-title="Cập nhật" value="@prod.Product.ProductID"><i class="fa fa-refresh"></i></button>
+                                                        <button type="button" data-toggle="tooltip" title="Xóa" class="btn btn-danger" onclick="cart.remove('');" data-original-title="Remove"><i class="fa fa-times-circle"></i></button>
+                                                    </span>
+
+                                                }
+
+                                            </div>
+
+
+                                        </td>
+                                        <td class="text-right">@string.Format("{0:n0}", prod.Product.Price) đ</td>
+                                        <td class="text-right">@string.Format("{0:n0}", prod.Product.Price * prod.Quantity) đ</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                            <tfoot>
+                          
+                                <tr>
+                                    <td class="text-right" colspan="4">Tổng tiền</td>
+                                    <td class="text-right">@string.Format("{0:n0}", tongTien) đ</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                   
+                }
+
+                <div class="buttons clearfix">
+
+                    @if (Model.Sum(x => x.Quantity) > 0)
+                    {
+                        <div class="pull-left">
+                            <a href="@Url.Action("Index", "TrangChu")" class="btn btn-default">
+                                Tiếp tục mua sắm
+                            </a>
+                        </div>
+                        <div class="pull-right"><a href="https://demo.opencart.com/index.php?route=checkout/checkout" class="btn btn-primary">Thanh toán</a></div>
+                    }
+                    else
+                    {
+                        <div class="pull-left">
+                            <a href="@Url.Action("Index", "TrangChu")" class="btn btn-default">
+                                Tiếp tục mua sắm
+                            </a>
+                        </div>
+                    }
+                </div>
+
+            }
+        </div>
+    </div>
+
+</div>
