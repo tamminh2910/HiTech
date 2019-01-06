@@ -1,0 +1,214 @@
+﻿@model HiTech.Web.Models.ProductCategoryViewModel
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+<div id="product-category">
+    <ul class="breadcrumb">
+        <li><a href="@Url.Action("Index","TrangChu")"><i class="fa fa-home"></i></a></li>
+        @if (ViewBag.Category != null)
+        {
+            <li><a href="@Url.Action("Index","SanPham",new {cate= ViewBag.Category})">@ViewBag.CategoryName</a></li>
+
+        }
+    </ul>
+    <div class="row">
+        <aside id="column-left" class="col-sm-3 hidden-xs">
+            <div class="list-group">
+                @foreach (var category in Model.Category.ToList())
+                {
+
+                    <a href="@Url.Action("Index","SanPham", new {cate=category.CategoryID })" class="list-group-item">@category.CategoryName </a>
+                }
+
+            </div>
+
+
+        </aside>
+        <div id="content" class="col-sm-9">
+
+
+
+            <div class="row">
+                <div class="col-md-2 col-sm-6 hidden-xs">
+                    <div class="btn-group btn-group-sm">
+
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+
+                </div>
+                <div class="col-md-offset-3 col-md-4 col-xs-6">
+                    <div class="form-group input-group input-group-sm">
+                        <label class="input-group-addon" for="input-sort">Sort By:</label>
+                        <select id="input-sort" class="form-control" onchange="location = this.value;">
+                            <option value="https://demo.opencart.com/index.php?route=product/category&amp;path=18&amp;sort=p.sort_order&amp;order=ASC"
+                                    selected="selected">
+                                Default
+                            </option>
+                            <option value="https://demo.opencart.com/index.php?route=product/category&amp;path=18&amp;sort=pd.name&amp;order=ASC">
+                                Name
+                                (A - Z)
+                            </option>
+                            <option value="https://demo.opencart.com/index.php?route=product/category&amp;path=18&amp;sort=pd.name&amp;order=DESC">
+                                Name
+                                (Z - A)
+                            </option>
+                            <option value="https://demo.opencart.com/index.php?route=product/category&amp;path=18&amp;sort=p.price&amp;order=ASC">
+                                Price
+                                (Low &gt; High)
+                            </option>
+                            <option value="https://demo.opencart.com/index.php?route=product/category&amp;path=18&amp;sort=p.price&amp;order=DESC">
+                                Price
+                                (High &gt; Low)
+                            </option>
+                            <option value="https://demo.opencart.com/index.php?route=product/category&amp;path=18&amp;sort=rating&amp;order=DESC">
+                                Rating
+                                (Highest)
+                            </option>
+                            <option value="https://demo.opencart.com/index.php?route=product/category&amp;path=18&amp;sort=rating&amp;order=ASC">
+                                Rating
+                                (Lowest)
+                            </option>
+                            <option value="https://demo.opencart.com/index.php?route=product/category&amp;path=18&amp;sort=p.model&amp;order=ASC">
+                                Model
+                                (A - Z)
+                            </option>
+                            <option value="https://demo.opencart.com/index.php?route=product/category&amp;path=18&amp;sort=p.model&amp;order=DESC">
+                                Model
+                                (Z - A)
+                            </option>
+                        </select>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                @if (Model.Product.ToList().Count() > 0)
+                {
+                    foreach (var product in Model.Product.ToList())
+                    {
+                        <div class="product-layout col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                            <div class="product-thumb">
+                                <div class="image" style="padding:10px;">
+                                    <a href="@Url.Action("SanPham","SanPham",new {prod = product.ProductID })">
+                                        @if (product.Image != null || product.Image != "")
+                                        {
+                                            <img src="@product.Image" alt="@product.Name" title="@product.Name" class="img-responsive">
+                                        }
+                                        else
+                                        {
+                                            <img src="#" alt="@product.Name" title="@product.Name" class="img-responsive">
+                                        }
+                                    </a>
+                                </div>
+                                <div>
+                                    <div class="content" style="padding:10px;">
+                                        <h4><a href="@Url.Action("SanPham","SanPham",new {prod = product.ProductID })">@product.Name</a></h4>
+                                        @* <p class="comment">@Html.Raw( product.Description)</p>*@
+                                        <p class="price">
+
+                                            <span class="price-tax">@string.Format("{0:n0}", product.Price) đ</span>
+                                            <br />
+                                            <span class="price-old">@string.Format("{0:n0}", product.Discount) đ</span>
+                                        </p>
+                                    </div>
+                                    <div class="button-group">
+                                        <button type="button" class="btnAddToCart" value="@product.ProductID" data-toggle="modal" data-target="#myModal">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            <span class="hidden-xs hidden-sm hidden-md">
+                                                Mua ngay
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div><h3>Không tìm thấy sản phẩm!. Vui lòng nhấn <a href="@Url.Action("Index","TrangChu")">tại đây</a> để trở về trang chủ</h3></div>
+                }
+
+
+            </div>
+            <div class="row">
+                <div class="col-sm-6 text-left"></div>
+                <div class="col-sm-6 text-right">
+                    fdf
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                <h4 class="modal-title">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p>Thêm vào giỏ hàng thành công</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" autofocus data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section AddToCart{
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    $(".btnAddToCart").click(function () {
+        //        alert("button");
+        //    });
+        //});
+        $(document).ready(function () {
+            window.addEventListener("pageshow", function (event) {
+                var historyTraversal = event.persisted ||
+                    (typeof window.performance != "undefined" &&
+                        window.performance.navigation.type === 2);
+                if (historyTraversal) {
+                    // Handle page restore.
+                    window.location.reload();
+                }
+            });
+            $('.btnAddToCart').click(function () {
+
+                var productID = $(this).val();
+
+                //Đúng
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AddToCart", "TrangChu")',
+                    contentType: "application/json; charset=utf-8",
+                    data: '{"id":"' + productID + '"}',
+
+                    success: function (result) {
+                        $('#giohang').html(result);
+
+                    },
+                    error: function () { alert('Fail'); }
+                    });
+
+            });
+
+
+
+
+        });
+    </script>
+}

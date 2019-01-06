@@ -110,15 +110,15 @@ namespace HiTech.Web.Controllers
                     }
                     return PartialView("_PartialCart");
                 }
-               
+
             }
             return View("Index");
         }
-        
-        
+
+
         public ActionResult RemoveProductCart(int id)
         {
-            
+
             List<ItemCart> cart = (List<ItemCart>)Session["Cart"];
             ItemCart sp = new ItemCart();
 
@@ -127,7 +127,7 @@ namespace HiTech.Web.Controllers
                 if (product.Product.ProductID == id)
                 {
                     sp = product;
-                   
+
                 }
             }
             cart.Remove(sp);
@@ -146,6 +146,46 @@ namespace HiTech.Web.Controllers
             }
             return -1;
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string username, string password)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = db.Customers.FirstOrDefault(x => x.UserName == username);
+                if (user != default(Customer))
+                {
+                    var userpass = db.Customers.FirstOrDefault(x => x.UserName == username && x.Password == password);
+                    if (userpass != default(Customer))
+                    {
+                        Session["Customer"] = userpass;
+                        return PartialView("_PartialLogin");
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Password", "Mật khẩu không đúng!");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("NotExistUsername", "Tên đăng nhập không tồn tại!");
+                }
+
+            }
+
+            return PartialView("_PartialLogin");
+        }
+
+
+        public ActionResult Logout()
+        {
+            Session.Remove("Customer");
+            return PartialView("_PartialLogin");
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (db != null)
@@ -154,5 +194,6 @@ namespace HiTech.Web.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

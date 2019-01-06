@@ -1,75 +1,168 @@
-﻿@model HiTech.Model.Entites.Order
+﻿@model HiTech.Web.Areas.Admin.Models.OrderDetailViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Chi tiết đơn hàng";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+
+<h2>Chi tiết đơn hàng</h2>
+@{
+    decimal tongtien = 0;
+    int soluong = 0;
+}
 
 <div>
-    <h4>Order</h4>
+    <h4>Đơn hàng</h4>
     <hr />
     <dl class="dl-horizontal">
+
+
+
         <dt>
-            @Html.DisplayNameFor(model => model.Customer.CustomerName)
+            Mã đơn hàng
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Customer.CustomerName)
+            @Html.DisplayFor(model => model.Order.OrderID)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.Employee.EmployeeName)
+            Tên khách hàng
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Employee.EmployeeName)
+            @Html.DisplayFor(model => model.Order.CustomerName)
         </dd>
 
+
+
         <dt>
-            @Html.DisplayNameFor(model => model.Shipper.ShipperName)
+            Ngày đặt hàng
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Shipper.ShipperName)
+            @Html.DisplayFor(model => model.Order.OrderDate)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.State.Description)
+            Địa chỉ giao hàng
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.State.Description)
+            @Html.DisplayFor(model => model.Order.ShipAddress)
+        </dd>
+
+
+        <dt>
+            Số điện thoại
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.Phone)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OrderDate)
+            Email
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OrderDate)
+            @Html.DisplayFor(model => model.Order.Email)
         </dd>
+        <dt>
+            Mô tả
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Order.Description)
+        </dd>
+
 
         <dt>
-            @Html.DisplayNameFor(model => model.ShippedDate)
+            Tình trạng đơn hàng
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ShippedDate)
+            @Html.DisplayFor(model => model.Order.State.Description)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipAddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShipAddress)
-        </dd>
-
     </dl>
 </div>
+@if (Model.OrderDetails.Count() > 0)
+{
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Mã đơn hàng
+                    </th>
+                    <th>
+                        Mã sản phẩm
+                    </th>
+                    @*<th>
+                            Tên sản phẩm
+                        </th>*@
+
+                    <th>
+                        Đơn giá
+                    </th>
+
+                    <th>
+                        Số lượng
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderDetails)
+                {
+                    {
+                        tongtien += (decimal)item.Quantity * (decimal)item.UnitPrice;
+                        soluong += (int)item.Quantity;
+                    }
+
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductID)
+                        </td>
+                        @*<td>
+                                @{
+                                    var name =
+                                }
+                                @Html.DisplayFor(modelItem => item.Product.Name)
+                            </td>*@
+
+                        <td>
+                          @string.Format("{0:n0}",  item.UnitPrice) đồng
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td>Tổng:</td>
+                    <td>@string.Format("{0:n0}", tongtien) đồng</td>
+                    <td>@soluong</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+}
+else
+{
+
+}
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Order.OrderID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -1,14 +1,14 @@
 ﻿using HiTech.Model;
 using HiTech.Model.Entites;
 using PagedList;
-using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web.Helpers;
 using System.Web.Mvc;
 namespace HiTech.Web.Areas.Admin.Controllers
 {
-   
+
     public class CategoryController : BaseController
     {
         private HiTechContext db = new HiTechContext();
@@ -32,7 +32,7 @@ namespace HiTech.Web.Areas.Admin.Controllers
             {
                 cate = db.Categories.Where(c => c.CategoryName.ToUpper().Contains(searchString)).ToList();
             }
-            int pageSize = 2;
+            int pageSize = 6;
             int pageNumber = (page ?? 1);
             return View(cate.ToPagedList(pageNumber, pageSize));
         }
@@ -96,6 +96,7 @@ namespace HiTech.Web.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult Edit([Bind(Include = "CategoryID,CategoryName,Description")] Category category)
         {
             if (ModelState.IsValid)

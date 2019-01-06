@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace HiTech.Model.Entites
 {
@@ -36,6 +37,7 @@ namespace HiTech.Model.Entites
         public decimal? Discount { get; set; }
 
         [Display(Name = "Mô tả")]
+        [AllowHtml]
         public string Description { get; set; }
 
         [Display(Name = "Tình trạng")]

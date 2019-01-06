@@ -1,0 +1,123 @@
+﻿@model HiTech.Model.Entites.Product
+
+@{
+    ViewBag.Title = "SanPham";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div id="product-product">
+    <ul class="breadcrumb">
+        <li><a href="@Url.Action("Index","TrangChu")"><i class="fa fa-home"></i></a></li>
+        <li><a href="@Url.Action("Index","SanPham",new {cate= Model.CategoryID})">@Model.Category.CategoryName</a></li>
+    </ul>
+    <div class="row">
+        <div id="content" class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-8">
+                    <ul class="thumbnails">
+                        <li>
+                            <a class="thumbnail" href="#" title="@Model.Name">
+                                <img src="@Model.Image" title="@Model.Name" width="300" class="thumnail" alt="@Model.Name">
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div>
+                        <p>@Html.Raw(Model.Description)</p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <h1>@Model.Name</h1>
+                    <ul class="list-unstyled">
+
+                        <li>
+                            <h2> <span style="color:red;">@string.Format("{0:n0}", Model.Price) đ</span></h2>
+                        </li>
+                        <li><span style="text-decoration: line-through; font-size:20px;">@string.Format("{0:n0}", Model.Discount) đ</span></li>
+                        <li>
+                            @if (Model.State == true)
+                            {
+                                <h3>Tình trạng: <span style="color:green;">Còn hàng</span> </h3>
+                            }
+                            else
+                            {
+                                <h2>Tình trạng: <span style="color:red;">Ngừng bán</span> </h2>
+                            }
+
+                        </li>
+                    </ul>
+                    <div id="product">
+                        <div class="form-group">
+
+                            <button type="button" id="button-cart" value="@Model.ProductID" data-loading-text="Loading..." class="btn btn-primary btn-lg btn-block btnAddToCart" data-toggle="modal" data-target="#myModal">
+                                Thêm vào giỏ hàng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                <h4 class="modal-title">Thông báo</h4>
+            </div>
+            <div class="modal-body">
+                <p>Thêm vào giỏ hàng thành công</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" autofocus data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section AddToCart{
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    $(".btnAddToCart").click(function () {
+        //        alert("button");
+        //    });
+        //});
+        $(document).ready(function () {
+            window.addEventListener("pageshow", function (event) {
+                var historyTraversal = event.persisted ||
+                    (typeof window.performance != "undefined" &&
+                        window.performance.navigation.type === 2);
+                if (historyTraversal) {
+                    // Handle page restore.
+                    window.location.reload();
+                }
+            });
+            $('.btnAddToCart').click(function () {
+
+                var productID = $(this).val();
+
+                //Đúng
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AddToCart", "TrangChu")',
+                    contentType: "application/json; charset=utf-8",
+                    data: '{"id":"' + productID + '"}',
+
+                    success: function (result) {
+                        $('#giohang').html(result);
+
+                    },
+                    error: function () { alert('Fail'); }
+                    });
+
+            });
+
+
+
+
+        });
+    </script>
+}

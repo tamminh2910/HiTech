@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div class="row">
+    <div class="col-md-4 col-md-offset-3">
+        <div class="page-login account-box-shadow">
+            <div id="login">
+                <div class="text-center" style="padding-bottom:20px;">
+                    <h1 class="title-head"><span>Đăng nhập tài khoản</span></h1>
+                </div>
+                <div>
+                    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <fieldset class="form-group">
+                            <label>Tên tài khoản<span class="required">*</span></label>
+                            @Html.TextBox("username", null, new { @class = "form-control", @placeholder = "Nhập tên đăng nhập...", @required="true" })
+                            @Html.ValidationMessage("NotExistUsername", new { @class = "text-danger" })
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <label>Mật khẩu<span class="required">*</span></label>
+                            @Html.TextBox("password", null, new { @class = "form-control", @placeholder = "Nhập mật khẩu...", @type = "password", @required = "true" })
+                            @Html.ValidationMessage("Password", new { @class = "text-danger" })
+                        </fieldset>
+                        <div class="pull-xs-left" style="margin-top: 15px;">
+                            <button class="btn btn-style btn-primary" type="submit" value="Đăng nhập">Đăng nhập</button>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="text-login">
+                            <p>
+                                Bạn chưa có tài khoản. Đăng ký <a href="/account/register">tại đây.</a>
+                            </p>
+                            <p>
+                                <a href="#recover" class="btn-link-style" onclick="showRecoverPasswordForm();">Quên mật khẩu?</a>
+                            </p>
+                        </div>
+                    }
+                </div>
+
+
+            </div>
+            @*<div id="recover-password" class="form-signup" style="display:none;">
+                    <h1 class="title-head"><span>Đặt lại mật khẩu</span></h1>
+                    <span>
+                        Bạn quên mật khẩu? Nhập địa chỉ email để lấy lại mật khẩu qua email.
+                    </span>
+                    <form accept-charset="UTF-8" action="/account/recover" id="recover_customer_password" method="post" class="has-validation-callback">
+                        <input name="FormType" type="hidden" value="recover_customer_password">
+                        <input name="utf8" type="hidden" value="true">
+                        <div class="form-signup aaaaaaaa">
+
+                        </div>
+
+                        <div class="form-signup clearfix">
+                            <fieldset class="form-group">
+                                <label>Email<span class="required">*</span></label>
+                                <input type="email" class="form-control form-control-lg" value="" name="Email" id="recover-email" placeholder="Email" data-validation="email"  data-validation-error-msg="Email sai định dạng">
+                            </fieldset>
+                        </div>
+                        <div class="action_bottom">
+                            <button class="btn btn-style btn-blues" style="margin-top: 15px;" type="submit" value="Lấy lại mật khẩu">Lấy lại mật khẩu</button>
+                        </div>
+                        <div class="text-login">
+                            <p>Quay lại <a href="javascript:;" class="btn-link-style btn-register" onclick="hideRecoverPasswordForm();">tại đây.</a></p>
+                        </div>
+                    </form>
+                </div>*@
+        </div>
+    </div>
+
+</div>
+

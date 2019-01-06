@@ -10,12 +10,15 @@ namespace HiTech.Model.Entites
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderID { get; set; }
-        [Display(Name = "Khách hàng")]
-        public int? CustomerID { get; set; }
+
+        
+
         [Display(Name = "Nhân viên")]
         public int? EmployeeID { get; set; }
+
         [Display(Name = "Người giao hàng")]
         public int? ShipperID { get; set; }
+
         [Display(Name = "Tình trạng giao hàng")]
         public int? StateID { get; set; }
 
@@ -30,8 +33,17 @@ namespace HiTech.Model.Entites
         [Display(Name = "Địa chỉ giao hàng")]
         public string ShipAddress { get; set; }
 
-        [ForeignKey("CustomerID")]
-        public virtual Customer Customer { get; set; }
+        [Display(Name = "Ghi chú")]
+        public string Description { get; set; }
+
+        [Display(Name = "Tên khách hàng")]
+        public string CustomerName { get; set; }
+
+        [Display(Name = "Số điện thoại")]
+        public string Phone { get; set; }
+
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [ForeignKey("EmployeeID")]
         public virtual Employee Employee { get; set; }

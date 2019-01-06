@@ -13,9 +13,10 @@ namespace HiTech.Web.Areas.Admin.Controllers
             ViewBag.XinChao = "Chào mừng bạn đến với trang Admin!!";
             return View(category);
         }
+        
         public ActionResult LogOut()
         {
-            Session.Clear();
+            Session.Remove("Admin");
             return RedirectToAction("Index", "Account");
         }
         protected override void Dispose(bool disposing)

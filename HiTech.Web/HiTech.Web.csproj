@@ -165,8 +165,12 @@
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\SupplierController.cs" />
+    <Compile Include="Areas\Admin\Models\OrderDetailViewModel.cs" />
     <Compile Include="Controllers\BasicController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SanPhamController.cs" />
     <Compile Include="Controllers\TrangChuController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -6615,6 +6619,7 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\js\common.js" />
     <Content Include="Content\js\hiTechCommon.js" />
+    <Content Include="Content\js\jquery.shorten.js" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Swiper\Css\OpenCart.css" />
     <Content Include="Content\Swiper\Css\swiper.min.css" />
@@ -7249,11 +7254,6 @@
     <Content Include="Areas\Admin\Views\Product\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Customer\Details.cshtml" />
@@ -7276,6 +7276,11 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Areas\Admin\Views\Order\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -7308,10 +7313,16 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\TrangChu\_PartialMenuClient.cshtml" />
     <Content Include="Views\Cart\_UpdateQuantity.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\TrangChu\_PartialLogin.cshtml" />
+    <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Client\Register.cshtml" />
+    <Content Include="Views\SanPham\Index.cshtml" />
+    <Content Include="Views\SanPham\SanPham.cshtml" />
+    <Content Include="Views\TrangChu\_PartialSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Content\Images\Product\" />
     <Folder Include="Views\Basic\" />

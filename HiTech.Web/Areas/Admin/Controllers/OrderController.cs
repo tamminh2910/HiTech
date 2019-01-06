@@ -1,13 +1,12 @@
-﻿using System;
+﻿using HiTech.Model;
+using HiTech.Model.Entites;
+using HiTech.Web.Areas.Admin.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using HiTech.Model;
-using HiTech.Model.Entites;
 
 namespace HiTech.Web.Areas.Admin.Controllers
 {
@@ -18,7 +17,7 @@ namespace HiTech.Web.Areas.Admin.Controllers
         // GET: Admin/Order
         public ActionResult Index()
         {
-            var orders = db.Orders.Include(o => o.Customer).Include(o => o.Employee).Include(o => o.Shipper).Include(o => o.State);
+            var orders = db.Orders.Include(o => o.Employee).Include(o => o.Shipper).Include(o => o.State);
             return View(orders.ToList());
         }
 
@@ -30,17 +29,23 @@ namespace HiTech.Web.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Order order = db.Orders.Find(id);
+            var orderDetail = db.OrderDetails.Where(x => x.OrderID == id);
+            var listProduct = new List<Product>();
+            
+            OrderDetailViewModel viewModel = new OrderDetailViewModel();
+            
+            viewModel.Order = order;
+            viewModel.OrderDetails = orderDetail;
             if (order == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(viewModel);
         }
 
         // GET: Admin/Order/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerID = new SelectList(db.Customers, "CustomerID", "CustomerName");
             ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "EmployeeName");
             ViewBag.ShipperID = new SelectList(db.Shippers, "ShipperID", "ShipperName");
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description");
@@ -52,7 +57,7 @@ namespace HiTech.Web.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OrderID,CustomerID,EmployeeID,ShipperID,StateID,OrderDate,ShippedDate,ShipAddress")] Order order)
+        public ActionResult Create([Bind(Include = "OrderID,EmployeeID,ShipperID,StateID,OrderDate,ShippedDate,ShipAddress,Description,CustomerName,Phone,Email")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +66,6 @@ namespace HiTech.Web.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerID = new SelectList(db.Customers, "CustomerID", "CustomerName", order.CustomerID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "EmployeeName", order.EmployeeID);
             ViewBag.ShipperID = new SelectList(db.Shippers, "ShipperID", "ShipperName", order.ShipperID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", order.StateID);
@@ -80,7 +84,6 @@ namespace HiTech.Web.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerID = new SelectList(db.Customers, "CustomerID", "CustomerName", order.CustomerID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "EmployeeName", order.EmployeeID);
             ViewBag.ShipperID = new SelectList(db.Shippers, "ShipperID", "ShipperName", order.ShipperID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", order.StateID);
@@ -92,7 +95,7 @@ namespace HiTech.Web.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OrderID,CustomerID,EmployeeID,ShipperID,StateID,OrderDate,ShippedDate,ShipAddress")] Order order)
+        public ActionResult Edit([Bind(Include = "OrderID,EmployeeID,ShipperID,StateID,OrderDate,ShippedDate,ShipAddress,Description,CustomerName,Phone,Email")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +103,6 @@ namespace HiTech.Web.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerID = new SelectList(db.Customers, "CustomerID", "CustomerName", order.CustomerID);
             ViewBag.EmployeeID = new SelectList(db.Employees, "EmployeeID", "EmployeeName", order.EmployeeID);
             ViewBag.ShipperID = new SelectList(db.Shippers, "ShipperID", "ShipperName", order.ShipperID);
             ViewBag.StateID = new SelectList(db.States, "StateID", "Description", order.StateID);
@@ -132,6 +134,8 @@ namespace HiTech.Web.Areas.Admin.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
 
         protected override void Dispose(bool disposing)
         {
